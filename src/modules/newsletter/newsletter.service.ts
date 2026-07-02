@@ -7,7 +7,7 @@ export class NewsletterService {
 
   subscribe(email: string) {
     const cleanEmail = email.trim().toLowerCase();
-    
+
     if (this.subscribers.has(cleanEmail)) {
       this.logger.warn(`Duplicate subscription attempt for: ${cleanEmail}`);
       throw new ConflictException('This email is already subscribed.');
@@ -15,7 +15,7 @@ export class NewsletterService {
 
     this.subscribers.add(cleanEmail);
     this.logger.log(`New subscriber registered: ${cleanEmail}`);
-    
+
     return {
       success: true,
       message: 'Subscription successful',

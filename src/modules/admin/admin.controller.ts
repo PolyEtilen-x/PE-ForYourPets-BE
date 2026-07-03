@@ -17,9 +17,16 @@ import { CreateProductDto } from '../product/dto/create-product.dto';
 import { UpdateProductDto } from '../product/dto/update-product.dto';
 import { UpdateOrderStatusDto } from '../order/dto/update-order-status.dto';
 
+import { IsString, IsNotEmpty } from 'class-validator';
+
 // DTO đơn giản cho login admin
 class AdminLoginDto {
+  @IsString()
+  @IsNotEmpty()
   username: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
 

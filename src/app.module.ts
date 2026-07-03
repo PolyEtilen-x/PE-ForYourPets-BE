@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { NewsletterModule } from './modules/newsletter/newsletter.module';
 import { ProductModule } from './modules/product/product.module';
 import { TrackingModule } from './modules/tracking/tracking.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TrackingModule } from './modules/tracking/tracking.module';
     NewsletterModule,
     ProductModule,
     TrackingModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [

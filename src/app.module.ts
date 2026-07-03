@@ -11,6 +11,7 @@ import { ProductModule } from './modules/product/product.module';
 import { TrackingModule } from './modules/tracking/tracking.module';
 import { OrderModule } from './modules/order/order.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { ChatbotModule } from './modules/chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AdminModule } from './modules/admin/admin.module';
     TrackingModule,
     OrderModule,
     AdminModule,
+    ChatbotModule,
   ],
   controllers: [AppController],
   providers: [

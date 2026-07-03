@@ -50,8 +50,8 @@ export class Order {
   })
   status: OrderStatus;
 
-  // Tổng tiền đơn hàng (VND)
-  @Column({ type: 'int' })
+  // Tổng tiền đơn hàng
+  @Column({ type: 'float' })
   totalAmount: number;
 
   // Ghi chú của khách hàng

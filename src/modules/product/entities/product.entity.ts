@@ -22,9 +22,12 @@ export class Product {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  // Giá sản phẩm, lưu dạng số nguyên (VND)
-  @Column({ type: 'int', default: 0 })
+  // Giá sản phẩm, lưu dạng số nguyên (VND hoặc USD)
+  @Column({ type: 'float', default: 0 })
   price: number;
+
+  @Column({ type: 'float', nullable: true })
+  compareAtPrice?: number;
 
   // Danh sách URL ảnh, lưu dạng JSON array
   @Column({ type: 'json', default: [] })

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  pe_postgres:
+    image: postgres:16-alpine
+    container_name: pe_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pe_user
+      POSTGRES_PASSWORD: pe_password
+      POSTGRES_DB: pe_foryourpets_db
+    ports:
+      - '5434:5432'
+    volumes:
+      - pe_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pe_user -d pe_foryourpets_db']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pe_pgadmin:
+    image: dpage/pgadmin4:8.4
+    container_name: pe_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pe.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - '5051:80'
+    depends_on:
+      pe_postgres:
+        condition: service_healthy
+    volumes:
+      - pe_pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pe_postgres_data:
+  pe_pgadmin_data:

@@ -24,6 +24,11 @@ export class UpdateProductDto {
   price?: number;
 
   @IsOptional()
+  @IsNumber()
+  @Min(0)
+  compareAtPrice?: number;
+
+  @IsOptional()
   @IsArray()
   images?: string[];
 

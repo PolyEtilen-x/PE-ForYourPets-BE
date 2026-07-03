@@ -11,6 +11,12 @@ export class ChatbotQuestion {
   @Column({ type: 'text' })
   answer: string;
 
+  @Column({ nullable: true })
+  questionEn: string;
+
+  @Column({ type: 'text', nullable: true })
+  answerEn: string;
+
   @CreateDateColumn()
   createdAt: Date;
 }

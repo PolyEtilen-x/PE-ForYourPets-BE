@@ -30,6 +30,6 @@ export class OrderItem {
   quantity: number;
 
   // Giá tại thời điểm đặt hàng (không phụ thuộc vào giá sản phẩm thay đổi sau này)
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   price: number;
 }

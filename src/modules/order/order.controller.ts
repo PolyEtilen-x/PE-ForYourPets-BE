@@ -1,16 +1,21 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { Throttle } from '@nestjs/throttler';
+import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 
-@Controller('order')
+// Các endpoint này không cần đăng nhập — khách hàng dùng tự do
+@Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Throttle({ default: { limit: 5, ttl: 60000 } }) // Limit to 5 checkouts per minute
+  // POST /orders — Khách hàng đặt hàng
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   create(@Body() dto: CreateOrderDto) {
     return this.orderService.create(dto);
+  }
+
+  // GET /orders/:id — Khách hàng tra cứu đơn hàng của mình
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.orderService.findOne(id);
   }
 }

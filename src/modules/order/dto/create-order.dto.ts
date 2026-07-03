@@ -1,50 +1,68 @@
-import { IsNotEmpty, IsEmail, IsString, IsArray, IsNumber, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsEnum,
+  IsArray,
+  ValidateNested,
+  IsNumber,
+  IsOptional,
+  Min,
+  ArrayMinSize,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { PaymentMethod } from '../entities/order.entity';
 
-export enum PaymentMethod {
-  COD = 'COD',
-  BANK_TRANSFER = 'BANK_TRANSFER',
-}
-
-export class OrderItemDto {
+// DTO cho từng sản phẩm trong đơn hàng
+class OrderItemDto {
   @IsNotEmpty()
   @IsString()
   productId: string;
 
   @IsNotEmpty()
+  @IsString()
+  productName: string;
+
   @IsNumber()
+  @Min(1)
   quantity: number;
 
-  @IsNotEmpty()
   @IsNumber()
+  @Min(0)
   price: number;
 }
 
+// DTO cho toàn bộ đơn hàng
 export class CreateOrderDto {
-  @IsNotEmpty({ message: 'Name is required' })
+  @IsNotEmpty({ message: 'Họ tên không được để trống' })
   @IsString()
-  name: string;
+  customerName: string;
 
-  @IsNotEmpty({ message: 'Phone is required' })
+  @IsNotEmpty({ message: 'Email không được để trống' })
+  @IsEmail({}, { message: 'Email không hợp lệ' })
+  customerEmail: string;
+
+  @IsNotEmpty({ message: 'Số điện thoại không được để trống' })
   @IsString()
-  phone: string;
+  customerPhone: string;
 
-  @IsNotEmpty({ message: 'Email is required' })
-  @IsEmail({}, { message: 'Invalid email format' })
-  email: string;
-
-  @IsNotEmpty({ message: 'Address is required' })
+  @IsNotEmpty({ message: 'Địa chỉ giao hàng không được để trống' })
   @IsString()
-  address: string;
+  shippingAddress: string;
 
-  @IsNotEmpty({ message: 'Payment method is required' })
-  @IsEnum(PaymentMethod, { message: 'Payment method must be COD or BANK_TRANSFER' })
+  @IsEnum(PaymentMethod, {
+    message: 'Phương thức thanh toán phải là cod hoặc bank_transfer',
+  })
   paymentMethod: PaymentMethod;
 
-  @IsNotEmpty()
-  @IsArray()
-  items: OrderItemDto[];
+  @IsOptional()
+  @IsString()
+  note?: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  total: number;
+  // Danh sách sản phẩm, phải có ít nhất 1 sản phẩm
+  @IsArray()
+  @ArrayMinSize(1, { message: 'Đơn hàng phải có ít nhất 1 sản phẩm' })
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
+  items: OrderItemDto[];
 }

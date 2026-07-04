@@ -121,4 +121,16 @@ export class AdminController {
   deleteProduct(@Param('id') id: string) {
     return this.adminService.deleteProduct(id);
   }
+
+  // ===== HỆ THỐNG LOGS =====
+
+  // GET /admin/system-logs — Danh sách lỗi hệ thống
+  @UseGuards(AdminJwtGuard)
+  @Get('system-logs')
+  getSystemLogs(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '50',
+  ) {
+    return this.adminService.getSystemLogs(Number(page), Number(limit));
+  }
 }

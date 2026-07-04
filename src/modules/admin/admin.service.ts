@@ -103,4 +103,11 @@ export class AdminService {
   deleteProduct(id: string) {
     return this.productService.softDelete(id);
   }
+
+  // ========================
+  // Hệ thống logs
+  // ========================
+  getSystemLogs(page: number, limit: number) {
+    return this.trackingService.getSystemLogs(page, limit);
+  }
 }

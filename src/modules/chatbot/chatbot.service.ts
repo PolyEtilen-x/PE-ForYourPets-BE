@@ -56,8 +56,8 @@ export class ChatbotService implements OnModuleInit {
         {
           question: 'Thông tin liên hệ bộ phận hỗ trợ khách hàng?',
           questionEn: 'How do I contact customer support?',
-          answer: 'Bạn có thể gửi yêu cầu hỗ trợ hoặc câu hỏi về địa chỉ email chính thức: tuyendung@helicorp.vn hoặc liên hệ hotline chăm sóc khách hàng 1900-PE-PETS để được trợ giúp 24/7.',
-          answerEn: 'You can send support requests to our official email: tuyendung@helicorp.vn or call our 24/7 customer service hotline at 1900-PE-PETS.',
+          answer: 'Bạn có thể gửi yêu cầu hỗ trợ hoặc câu hỏi về địa chỉ email chính thức: polyetilen.vn@gmail.com hoặc liên hệ hotline chăm sóc khách hàng 036.4820.490 để được trợ giúp 24/7.',
+          answerEn: 'You can send support requests to our official email: polyetilen.vn@gmail.com or call our 24/7 customer service hotline at 036.4820.490.',
         },
       ];
 
@@ -131,7 +131,7 @@ export class ChatbotService implements OnModuleInit {
     const outputLanguage = locale === 'en' ? 'English' : 'Vietnamese';
 
     const systemPrompt = `You are a professional AI Assistant for the brand PE - For Your Pets (developed by Healthy Living Corporation - Helicorp).
-Please reply to the customer in a friendly, polite, concise, and accurate manner based on the following product information:
+You must answer questions strictly based on the following product information:
 1. PE AI Health Camera Pro: Price $69.99 (original $99.00). 130-degree wide angle, 24/7 AI behavior tracking (eating, waste elimination), anomaly alert notifications, infrared night vision, two-way audio, dual-band Wi-Fi 2.4/5GHz.
 2. PE AI Health Camera Lite: Price $49.99 (original $69.00). 1080p resolution, mechanical 360-degree rotation base, micro-USB power cable.
 3. PE Smart Pet Feeder: Price $79.99 (original $119.00). 4L dry container, D-cell backup batteries + wall plugin, voice call speakers.
@@ -139,8 +139,15 @@ Please reply to the customer in a friendly, polite, concise, and accurate manner
 5. PE Smart GPS Tracker: Price $24.99 (original $39.00). GPS+BDS+LBS+Wi-Fi tracking, IP67 waterproof, 28g neck collar weight.
 Warranty Policy: 1-to-1 replacement for 12 months for any manufacturer hardware defects.
 Payment: Cash on Delivery (COD) or direct Bank Transfer.
-Support Contacts: tuyendung@helicorp.vn or hotline 1900-PE-PETS.
-IMPORTANT: You MUST reply only in ${outputLanguage}.`;
+Support Contacts: polyetilen.vn@gmail.com or hotline 036.4820.490.
+
+CRITICAL RULES:
+1. You are ONLY allowed to answer questions that are directly related to the PE products listed above, their pricing, warranty, support contacts, or payments.
+2. If the user asks about unrelated topics (e.g. general knowledge, programming, jokes, recipes, weather, other brands, capital of countries, general pet health tips not related to our devices, etc.), you MUST politely decline to answer.
+3. For unrelated questions, reply exactly with:
+   - In Vietnamese: "Tôi chỉ có thể hỗ trợ các thông tin liên quan đến sản phẩm và dịch vụ của PE - For Your Pets. Vui lòng đặt câu hỏi khác liên quan."
+   - In English: "I can only assist with information related to PE - For Your Pets products and services. Please ask a related question."
+4. You MUST reply only in ${outputLanguage}.`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -191,8 +198,8 @@ IMPORTANT: You MUST reply only in ${outputLanguage}.`;
     }
     if (normalizedInput.includes('lien he') || normalizedInput.includes('hotline') || normalizedInput.includes('email') || normalizedInput.includes('support') || normalizedInput.includes('contact')) {
       return isEn
-        ? 'You can send support requests directly to our email tuyendung@helicorp.vn or call our hotline 1900-PE-PETS for immediate assistance!'
-        : 'Bạn có thể gửi yêu cầu hỗ trợ trực tiếp đến email tuyendung@helicorp.vn hoặc liên hệ hotline 1900-PE-PETS để được hỗ trợ giải quyết ngay nhé!';
+        ? 'You can send support requests directly to our email polyetilen.vn@gmail.com or call our hotline 036.4820.490 for immediate assistance!'
+        : 'Bạn có thể gửi yêu cầu hỗ trợ trực tiếp đến email polyetilen.vn@gmail.com hoặc liên hệ hotline 036.4820.490 để được hỗ trợ giải quyết ngay nhé!';
     }
 
     return isEn

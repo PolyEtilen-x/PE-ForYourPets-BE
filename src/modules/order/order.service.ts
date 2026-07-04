@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order, OrderStatus } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { TrackingService } from '../tracking/tracking.service';
+import { LogSource } from '../tracking/entities/system-log.entity';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepo: Repository<Order>,
+    private readonly trackingService: TrackingService,
   ) {}
 
   // Khách hàng tạo đơn hàng mới
@@ -43,6 +46,42 @@ export class OrderService {
     }
 
     return order;
+  }
+
+  // Webhook xử lý thanh toán từ SePay
+  async handleSepayWebhook(data: any) {
+    // data.content có dạng "PE ORDER <ID>"
+    const content = data.content || '';
+    const match = content.match(/PE ORDER ([A-Za-z0-9\-]+)/i);
+    
+    if (match && match[1]) {
+      const orderId = match[1];
+      const order = await this.orderRepo.findOne({ where: { id: orderId } });
+      
+      if (order && !order.isPaid) {
+        order.isPaid = true;
+        order.status = OrderStatus.CONFIRMED;
+        await this.orderRepo.save(order);
+        return { success: true, message: 'Đơn hàng đã được thanh toán', orderId };
+      } else if (!order) {
+        await this.trackingService.logSystemError(
+          LogSource.WEBHOOK,
+          `Không tìm thấy đơn hàng ID: ${orderId}`,
+          null,
+          '/orders/sepay-webhook',
+          data
+        );
+      }
+    } else {
+      await this.trackingService.logSystemError(
+        LogSource.WEBHOOK,
+        'Payload không chứa mã đơn hàng hợp lệ',
+        null,
+        '/orders/sepay-webhook',
+        data
+      );
+    }
+    return { success: false, message: 'Không tìm thấy đơn hàng hoặc payload sai' };
   }
 
   // ---- Dùng nội bộ cho AdminService ----

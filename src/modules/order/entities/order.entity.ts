@@ -58,6 +58,10 @@ export class Order {
   @Column({ type: 'text', nullable: true })
   note: string;
 
+  // Trạng thái thanh toán (Cập nhật qua SePay Webhook)
+  @Column({ type: 'boolean', default: false })
+  isPaid: boolean;
+
   // Một đơn hàng có nhiều sản phẩm (OrderItem)
   @OneToMany(() => OrderItem, (item) => item.order, {
     cascade: true,     // Khi save Order thì tự save luôn các OrderItem

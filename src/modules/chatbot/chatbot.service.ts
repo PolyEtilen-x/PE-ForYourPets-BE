@@ -56,8 +56,8 @@ export class ChatbotService implements OnModuleInit {
         {
           question: 'Thông tin liên hệ bộ phận hỗ trợ khách hàng?',
           questionEn: 'How do I contact customer support?',
-          answer: 'Bạn có thể gửi yêu cầu hỗ trợ hoặc câu hỏi về địa chỉ email chính thức: tuyendung@helicorp.vn hoặc liên hệ hotline chăm sóc khách hàng 1900-PE-PETS để được trợ giúp 24/7.',
-          answerEn: 'You can send support requests to our official email: tuyendung@helicorp.vn or call our 24/7 customer service hotline at 1900-PE-PETS.',
+          answer: 'Bạn có thể gửi yêu cầu hỗ trợ hoặc câu hỏi về địa chỉ email chính thức: polyetilen.vn@gmail.com hoặc liên hệ hotline chăm sóc khách hàng 036.4820.490 để được trợ giúp 24/7.',
+          answerEn: 'You can send support requests to our official email: polyetilen.vn@gmail.com or call our 24/7 customer service hotline at 036.4820.490.',
         },
       ];
 
@@ -139,7 +139,7 @@ You must answer questions strictly based on the following product information:
 5. PE Smart GPS Tracker: Price $24.99 (original $39.00). GPS+BDS+LBS+Wi-Fi tracking, IP67 waterproof, 28g neck collar weight.
 Warranty Policy: 1-to-1 replacement for 12 months for any manufacturer hardware defects.
 Payment: Cash on Delivery (COD) or direct Bank Transfer.
-Support Contacts: tuyendung@helicorp.vn or hotline 1900-PE-PETS.
+Support Contacts: polyetilen.vn@gmail.com or hotline 036.4820.490.
 
 CRITICAL RULES:
 1. You are ONLY allowed to answer questions that are directly related to the PE products listed above, their pricing, warranty, support contacts, or payments.
@@ -198,8 +198,8 @@ CRITICAL RULES:
     }
     if (normalizedInput.includes('lien he') || normalizedInput.includes('hotline') || normalizedInput.includes('email') || normalizedInput.includes('support') || normalizedInput.includes('contact')) {
       return isEn
-        ? 'You can send support requests directly to our email tuyendung@helicorp.vn or call our hotline 1900-PE-PETS for immediate assistance!'
-        : 'Bạn có thể gửi yêu cầu hỗ trợ trực tiếp đến email tuyendung@helicorp.vn hoặc liên hệ hotline 1900-PE-PETS để được hỗ trợ giải quyết ngay nhé!';
+        ? 'You can send support requests directly to our email polyetilen.vn@gmail.com or call our hotline 036.4820.490 for immediate assistance!'
+        : 'Bạn có thể gửi yêu cầu hỗ trợ trực tiếp đến email polyetilen.vn@gmail.com hoặc liên hệ hotline 036.4820.490 để được hỗ trợ giải quyết ngay nhé!';
     }
 
     return isEn

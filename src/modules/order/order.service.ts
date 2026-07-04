@@ -45,6 +45,26 @@ export class OrderService {
     return order;
   }
 
+  // Webhook xử lý thanh toán từ SePay
+  async handleSepayWebhook(data: any) {
+    // data.content có dạng "PE ORDER <ID>"
+    const content = data.content || '';
+    const match = content.match(/PE ORDER ([A-Za-z0-9\-]+)/i);
+    
+    if (match && match[1]) {
+      const orderId = match[1];
+      const order = await this.orderRepo.findOne({ where: { id: orderId } });
+      
+      if (order && !order.isPaid) {
+        order.isPaid = true;
+        order.status = OrderStatus.CONFIRMED;
+        await this.orderRepo.save(order);
+        return { success: true, message: 'Đơn hàng đã được thanh toán', orderId };
+      }
+    }
+    return { success: false, message: 'Không tìm thấy đơn hàng hoặc đã thanh toán' };
+  }
+
   // ---- Dùng nội bộ cho AdminService ----
 
   // Lấy tất cả đơn hàng với phân trang đơn giản

@@ -5,7 +5,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 // Các endpoint này không cần đăng nhập — khách hàng dùng tự do
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) { }
 
   // POST /orders — Khách hàng đặt hàng
   @Post()
@@ -17,5 +17,11 @@ export class OrderController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(id);
+  }
+
+  // POST /orders/sepay-webhook — Nhận Webhook từ SePay khi có chuyển khoản
+  @Post('sepay-webhook')
+  handleSepayWebhook(@Body() payload: any) {
+    return this.orderService.handleSepayWebhook(payload);
   }
 }
